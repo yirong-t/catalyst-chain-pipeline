@@ -2,7 +2,11 @@
 *.csv
 *.parquet
 *.json
-!application_default_credentials.json # 如果名字一样也别推，安全第一
+!application_default_credentials.json 
+DataSet_Download/
+
+# === python Files  ===
+local_clean_data.py
 
 # === Terraform ===
 # Local .terraform directories
