@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: raw_supply_chain
+    database: catalyst-chain-project # GCP Project ID
+    schema: raw_supply_chain # raw dataset name in BigQuery
+    tables:
+      - name: raw_stock_prices
+        description: "Manually ingested and cleaned historical stock prices."
+      
+      - name: raw_supply_orders
+        description: "Raw supply chain procurement logs containing metrics like PO_ID, Supplier, and metrics."
