@@ -13,6 +13,7 @@ supplier_mapping as (
 
 enriched_orders as (
     select
+        to_hex(md5(concat(coalesce(o.po_id, ''), '_', coalesce(m.impact_ticker, '')))) as correlation_surrogate_key,
         o.po_id,
         o.supplier,
         m.impact_ticker,
@@ -22,13 +23,15 @@ enriched_orders as (
         o.order_status,
         o.order_date,
         o.delivery_date,
-
+        
         -- Business Metric 1: Calculate lead time duration in days
         date_diff(o.delivery_date, o.order_date, day ) as actual_lead_time_days
 
         -- Business Metric 2: Financial leakage (how much over negotiated price did we pay)
         ,(o.unit_price - o.negotiated_price) * o.quantity as procurement_cost_leakage
 
+        -- custom macro for procurement inflation rate
+        , {{ calculate_percentage_leak('o.unit_price', 'o.negotiated_price') }} as price_inflation_rate
         -- Business Metric 3: Defect rate to capture supplier quality shocks
         ,safe_divide(o.defective_units, o.quantity) as defect_rate
 
