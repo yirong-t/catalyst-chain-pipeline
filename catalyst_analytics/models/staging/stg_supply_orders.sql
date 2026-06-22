@@ -3,7 +3,7 @@ with source_data as(
 ),
 renamed as(
     select 
-    cast(PO_ID as int) as po_id,
+    cast(PO_ID as string) as po_id,
     trim(Supplier) as supplier,
     trim(Item_Category) as item_category,
     cast(Order_Date as date) as order_date,
