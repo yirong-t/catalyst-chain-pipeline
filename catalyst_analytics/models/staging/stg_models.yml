@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: stg_supply_orders
+    description: "Sanitized and typed purchase orders from the supply chain domain."
+    columns:
+      - name: po_id
+        description: "Primary key for purchase orders. Must be unique and populated."
+        # 💡 Generic Tests: Defending the primary key integrity
+        tests:
+          - unique
+          - not_null
+
+      - name: order_status
+        description: "The operational status of the order."
+        # 💡 Generic Tests: Restricting values to expected business statuses
+        tests:
+          - accepted_values:
+              values: ['Delivered', 'Cancelled', 'Partially Delivered', 'Pending']
+
+  - name: stg_stock_prices
+    description: "Sanitized historical time-series stock price data."
+    columns:
+      - name: ticker
+        description: "Stock market ticker symbol."
+        tests:
+          - not_null

@@ -17,4 +17,4 @@ renamed as(
     from source_data
 )
 
-select * from renamed
+select * from renamed WHERE delivery_date >= order_date OR delivery_date IS NULL
